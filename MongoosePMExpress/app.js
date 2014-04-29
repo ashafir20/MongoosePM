@@ -56,7 +56,7 @@ app.post('/project/edit/:id', project.doEdit);// Edit selected project action
 app.get('/project/delete/:id', project.confirmDelete);// Delete selected product form
 app.post('/project/delete/:id', project.doDelete); // Delete selected project action
 
-
+app.get('/project/byuser/:userid', project.byUser); // Projects created by a user
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -10,5 +10,14 @@ var projectSchema = new mongoose.Schema({
 });
 
 
+projectSchema.statics.findByUserID = function (userid, callback) {
+    this.find(
+    { createdBy: userid },
+    '_id projectName',
+    {sort: 'modifiedOn'},
+    callback);
+}
+
+
 // Build the Project model
 mongoose.model('Project', projectSchema);

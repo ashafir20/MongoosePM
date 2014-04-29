@@ -70,7 +70,7 @@ exports.login = function(req, res) {
 }
 
 
-    // POST login page
+// POST login page
 exports.doLogin = function (req, res) {
     if (req.body.Email) {
         User.findOne({ 'email': req.body.Email }, '_id name email modifiedOn', function (err, user) {
