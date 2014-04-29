@@ -1,0 +1,17 @@
+{
+  "name": "MongoosePMExpress",
+  "version": "0.0.0",
+  "description": "MongoosePMExpress",
+  "main": "app.js",
+  "author": {
+    "name": "VAX",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "^3.4.4",
+    "jade": "*",
+    "stylus": "^0.44.0",
+    "connect": "^2.7.11",
+    "mongoose": "^3.6.20"
+  }
+}
