@@ -45,6 +45,7 @@
     <Content Include="views\layout.jade" />
     <Content Include="views\login-form.jade" />
     <Content Include="views\project-form.jade" />
+    <Content Include="views\project-page.jade" />
     <Content Include="views\user-form.jade" />
     <Content Include="views\user-page.jade" />
   </ItemGroup>

@@ -8,12 +8,15 @@ exports.create = function (req, res) {
             title: 'Create project',
             userid: req.session.user._id,
             userName: req.session.user.name,
+            projectID: '',
+            projectName: '',
+            tasks: '',
             buttonText: 'Make it so!'
         });
     } else {
         res.redirect('/login');
     }
-}
+};
 
 // POST project creation form
 exports.doCreate = function(req, res) {
@@ -34,17 +37,85 @@ exports.doCreate = function(req, res) {
     });
 }
 
-exports.displayInfo = function(req, res) {
+// GET project info
+exports.displayInfo = function (req, res) {
+    console.log('Displaying project');
+    console.log(req.params.id);
+    if (req.session.loggedIn !== true) {
+        res.redirect('/login');
+    } else {
+        if (req.params.id) {
+            Project.findById(req.params.id, function (err, project) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(project);
+                    res.render('project-page', {
+                        title: project.projectName,
+                        projectName: project.projectName,
+                        tasks: project.tasks,
+                        createdBy: project.createdBy,
+                        projectID: req.params.id
+                    });
+                }
+            });
+        } else {
+            res.redirect('/user');
+        }
+    }
+};
 
-}
 
-exports.edit = function(req, res) {
 
-}
+// GET project edit form
+exports.edit = function (req, res) {
+    if (req.session.loggedIn !== true) {
+        res.redirect('/login');
+    } else {
+        if (req.params.id) {
+            Project.findById(req.params.id, function (err, project) {
+                res.render('project-form', {
+                    title: 'Edit project',
+                    userid: req.session.user._id,
+                    userName: req.session.user.name,
+                    projectID: req.params.id,
+                    projectName: project.projectName,
+                    tasks: project.tasks,
+                    buttonText: 'Make the change!'
+                });
+            });
+        } else {
+            res.redirect('/user');
+        }
+    }
+};
 
-exports.doEdit = function doEdit(req, res) {
+// POST project edit form
+exports.doEdit = function (req, res) {
+    if (req.session.loggedIn !== true) {
+        res.redirect('/login');
+    } else {
+        if (req.body.projectID) {
+            Project.findById(req.body.projectID,
+              function (err, project) {
+                  if (!err) {
+                      project.projectName = req.body.projectName;
+                      project.tasks = req.body.tasks;
+                      project.modifiedOn = Date.now();
+                      project.save(function (error) {
+                          if (error) {
+                              console.log(error);
+                          } else {
+                              console.log('Project updated: ' + req.body.projectName);
+                              res.redirect('/project/' + req.body.projectID);
+                          }
+                      });
+                  }
+              });
+        }
+    }
+};
 
-}
 
 exports.confirmDelete = function(req, res) {
 
