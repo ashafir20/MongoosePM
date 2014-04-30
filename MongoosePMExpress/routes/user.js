@@ -10,10 +10,40 @@ exports.index = function (req, res) {
             email: req.session.user.email,
             userID: req.session.user._id
         });
+        
     } else {
         res.redirect('/login');
     }
 }
+
+    // GET login page
+exports.login = function (req, res) {
+    res.render('login-form', { title: 'Log in' });
+}
+
+
+    // POST login page
+exports.doLogin = function (req, res) {
+    if (req.body.Email) {
+        User.findOne({ 'email': req.body.Email }, '_id name email modifiedOn', function (err, user) {
+            if (!err) {
+                if (!user) {
+                    res.redirect('/login?404=user');
+                } else {
+                    req.session.user = { "name": user.name, "email": user.email, "_id": user._id };
+                    req.session.loggedIn = true;
+                    console.log('Logged in user: ' + user);
+                    res.redirect('/user');
+                }
+            } else {
+                res.redirect('/login?404=error');
+            }
+        });
+    } else {
+        res.redirect('/login?404=error');
+    }
+};
+
 
 // GET user creation form
 exports.create = function(req, res) {
@@ -63,34 +93,6 @@ exports.confirmDelete = function(req, res) {
 exports.doDelete = function(req, res) {
 
 }
-
-// GET login page
-exports.login = function(req, res) {
-    res.render('login-form', { title: 'Log in' });
-}
-
-
-// POST login page
-exports.doLogin = function (req, res) {
-    if (req.body.Email) {
-        User.findOne({ 'email': req.body.Email }, '_id name email modifiedOn', function (err, user) {
-            if (!err) {
-                if (!user) {
-                    res.redirect('/login?404=user');
-                } else {
-                    req.session.user = { "name": user.name, "email": user.email, "_id": user._id };
-                    req.session.loggedIn = true;
-                    console.log('Logged in user: ' + user);
-                    res.redirect('/user');
-                }
-            } else {
-                res.redirect('/login?404=error');
-            }
-        });
-    } else {
-        res.redirect('/login?404=error');
-    }
-};
 
 exports.doLogout = function (req, res) {
 

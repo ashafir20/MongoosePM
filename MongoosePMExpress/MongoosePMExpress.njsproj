@@ -34,6 +34,7 @@
     <Compile Include="model\db.js" />
     <Compile Include="model\project\project.js" />
     <Compile Include="model\user\user.js" />
+    <Compile Include="public\javascripts\user.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\project.js" />
     <Compile Include="routes\user.js" />
