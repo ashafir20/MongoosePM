@@ -125,13 +125,41 @@ exports.doEdit = function(req, res) {
     };
 };
 
-exports.confirmDelete = function(req, res) {
+// GET user delete confirmation form
+exports.confirmDelete = function(req, res){
+    res.render('user-delete-form', {
+        title: 'Delete account',
+        _id: req.session.user._id,
+        name: req.session.user.name,
+        email: req.session.user.email
+    });
+};
 
-}
 
-exports.doDelete = function(req, res) {
+// POST user delete form
+exports.doDelete = function (req, res) {
+    if (req.body._id) {
+        User.findByIdAndRemove(
+        req.body._id,
+        function (err, user) {
+            if (err) {
+                console.log(err);
+                return res.redirect('/user?error=deleting');
+            }
+            console.log("User deleted:", user);
+            clearSession(req.session, function () {
+                res.redirect('/');
+            });
+        }
+        );
+    }
+};
 
-}
+var clearSession = function (session, callback) {
+    session.destroy();
+    callback();
+};
+
 
 exports.doLogout = function (req, res) {
 
