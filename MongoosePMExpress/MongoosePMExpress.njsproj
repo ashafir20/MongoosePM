@@ -31,9 +31,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="model\creationInfo.js" />
     <Compile Include="model\db.js" />
+    <Compile Include="model\modifiedOn.js" />
     <Compile Include="model\project\project.js" />
     <Compile Include="model\user\user.js" />
+    <Compile Include="model\validation.js" />
     <Compile Include="public\javascripts\user.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\project.js" />
